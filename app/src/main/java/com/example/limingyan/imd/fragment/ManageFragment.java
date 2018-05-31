@@ -1,6 +1,7 @@
 package com.example.limingyan.imd.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,9 +11,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,6 +88,29 @@ public class ManageFragment extends Fragment {
         introductionList = new ArrayList<>();
         adapter = new MyBaseAdapter(introductionList);
         manageList.setAdapter(adapter);
+
+        edtContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    String content=edtContent.getText().toString().trim();
+                    if (!TextUtils.isEmpty(content)){
+                        ((InputMethodManager) edtContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                                .hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                                        InputMethodManager.HIDE_NOT_ALWAYS);
+                        getData("goodsName",content);
+                        typeChoice.setVisibility(View.GONE);
+                    }else {
+                        ((InputMethodManager) edtContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                                .hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                                        InputMethodManager.HIDE_NOT_ALWAYS);
+                        typeChoice.setVisibility(View.VISIBLE);
+                        getData("type",String.valueOf(typeChoice.getSelectedItem()));
+                    }
+                }
+                return false;
+            }
+        });
 
         manageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

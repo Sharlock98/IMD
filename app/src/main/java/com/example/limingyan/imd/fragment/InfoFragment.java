@@ -47,12 +47,6 @@ public class InfoFragment extends Fragment {
 
     @BindView(R.id.title)
     TextView title;
-    //    @BindView(R.id.page1)
-//    ImageView page1;
-//    @BindView(R.id.page2)
-//    ImageView page2;
-//    @BindView(R.id.page3)
-//    ImageView page3;
     @BindView(R.id.MsgList)
     ListView msgList;
     Unbinder unbinder;
