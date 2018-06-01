@@ -123,7 +123,9 @@ public class InfoFragment extends Fragment {
         bmobQuery.findObjects(new FindListener<t_Info>() {
             @Override
             public void done(List<t_Info> list, BmobException e) {
-                getNews(list, flag);
+                if (e == null){
+                    getNews(list, flag);
+                }
             }
         });
         msgList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -145,10 +147,12 @@ public class InfoFragment extends Fragment {
             bmobQuery.getObject(list.get(i).getObjectId(), new QueryListener<t_Info>() {
                 @Override
                 public void done(t_Info t_info, BmobException e) {
-                    t_infoList.add(t_info);
-                    adapter.notifyDataSetChanged();
-                    flag ++;
-                    getNews(list,flag);
+                    if (e == null){
+                        t_infoList.add(t_info);
+                        adapter.notifyDataSetChanged();
+                        flag ++;
+                        getNews(list,flag);
+                    }
                 }
             });
 

@@ -18,6 +18,7 @@ import com.example.limingyan.imd.activity.ChangeMsgActivity;
 import com.example.limingyan.imd.activity.DetailsActivity;
 import com.example.limingyan.imd.activity.MapActivity;
 import com.example.limingyan.imd.activity.ScanActivity;
+import com.example.limingyan.imd.activity.SearchBlue;
 import com.example.limingyan.imd.entity.t_admin;
 import com.example.limingyan.imd.util.HttpRequest;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -89,7 +90,6 @@ public class MeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        EventBus.getDefault().unregister(this);
     }
     private void getCode(){
         IntentIntegrator integrator = new IntentIntegrator(getActivity());
@@ -115,7 +115,7 @@ public class MeFragment extends Fragment {
                 startActivity(new Intent(getActivity(), ChangeMsgActivity.class));
                 break;
             case R.id.blueTooth:
-                startActivity(new Intent(getActivity(), BlueToothActivity.class));
+                startActivity(new Intent(getActivity(), SearchBlue.class));
                 break;
         }
     }

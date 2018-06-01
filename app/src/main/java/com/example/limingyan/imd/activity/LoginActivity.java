@@ -1,16 +1,12 @@
 package com.example.limingyan.imd.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,10 +20,7 @@ import com.example.limingyan.imd.util.HttpRequest;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Locale;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
@@ -50,7 +43,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         initView();
         Bmob.initialize(LoginActivity.this, "3cb928f0c2d0133c575f7564c0d786e0");
-
     }
 
     @Override
@@ -76,18 +68,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     query.findObjects(new FindListener<t_admin>() {
                         @Override
                         public void done(List<t_admin> list, BmobException e) {
-                            if (list.size() != 0){
-                                HttpRequest.getBitmap(list.get(0).getAvatar(), new Response.Listener<Bitmap>() {
-                                    @Override
-                                    public void onResponse(Bitmap bitmap) {
-                                        head.setImageBitmap(bitmap);
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError volleyError) {
+                            if (e == null){
+                                if (list.size() != 0){
+                                    HttpRequest.getBitmap(list.get(0).getAvatar(), new Response.Listener<Bitmap>() {
+                                        @Override
+                                        public void onResponse(Bitmap bitmap) {
+                                            head.setImageBitmap(bitmap);
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError volleyError) {
 
-                                    }
-                                });
+                                        }
+                                    });
+                                }
                             }
                         }
                     });
@@ -115,16 +109,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     query.findObjects(new FindListener<t_admin>() {
                         @Override
                         public void done(List<t_admin> list, BmobException e) {
-                            if (list.size() != 0) {
-                                if (password.equals(list.get(0).getPassword())) {
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                    finish();
-                                    EventBus.getDefault().postSticky(list);
+                            if (e == null){
+                                if (list.size() != 0) {
+                                    if (password.equals(list.get(0).getPassword())) {
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        finish();
+                                        EventBus.getDefault().postSticky(list);
+                                    }else {
+                                        Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                                    }
                                 }else {
-                                    Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "工号不存在", Toast.LENGTH_SHORT).show();
                                 }
-                            }else {
-                                Toast.makeText(LoginActivity.this, "工号不存在", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

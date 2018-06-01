@@ -2,46 +2,29 @@ package com.example.limingyan.imd.util;
 
 public class ChangeUtil {
 
-
-    public static byte[] changeASCII(String string) {
-        StringBuffer sb = new StringBuffer();
-        char[] ch = string.toCharArray();
-
-        for (int i = 0; i < ch.length; i++) {
-       sb.append(Integer.valueOf(ch[i]).intValue());
-       sb.append("/");
+    /**
+     * 10转16
+     * @param message
+     * @return
+     */
+   public static  byte[] getHexBytes(String message) {
+        int len = message.length() / 2;
+        char[] chars = message.toCharArray();
+        String[] hexStr = new String[len];
+        byte[] bytes = new byte[len];
+        for (int i = 0, j = 0; j < len; i += 2, j++) {
+            hexStr[j] = "" + chars[i] + chars[i + 1];
+            bytes[j] = (byte) Integer.parseInt(hexStr[j], 16);
         }
-
-        return sb.toString().getBytes();
-
-    }
-    public static String str2HexStr(String str)
-    {
-
-        char[] chars = "0123456789ABCDEF".toCharArray();
-        StringBuilder sb = new StringBuilder("");
-        byte[] bs = str.getBytes();
-        int bit;
-
-        for (int i = 0; i < bs.length; i++)
-        {
-            bit = (bs[i] & 0x0f0) >> 4;
-            sb.append(chars[bit]);
-            bit = bs[i] & 0x0f;
-            sb.append(chars[bit]);
-            sb.append(' ');
-        }
-        return sb.toString().trim();
+        return bytes;
     }
 
     public static void main(String[] args) {
-      byte[] ss=changeASCII("我的的撒的爱上");
+        String s="10";
+        for (int i = 0; i < getHexBytes(s).length; i++) {
 
-        for(int i=0;i<ss.length;i++){
-            System.out.print(ss[i]);
+            System.out.println(getHexBytes(s)[i]);
         }
+
     }
 }
-
-
-

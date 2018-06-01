@@ -10,6 +10,9 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.example.limingyan.imd.R;
 
@@ -34,6 +37,12 @@ public class MapActivity extends AppCompatActivity implements AMapLocationListen
         //地图模式可选类型：MAP_TYPE_NORMAL,MAP_TYPE_SATELLITE,MAP_TYPE_NIGHT
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);// 平面地图模式
 
+        LatLng latLng1 = new LatLng(31.951649,118.843303);
+        LatLng latLng2 = new LatLng(32.015847,118.789296);
+        LatLng latLng3 = new LatLng(32.117986,118.819280);
+        aMap.addMarker(new MarkerOptions().position(latLng1).title("南京").snippet("南京市江宁区竹山路68号万达广场F4层"));
+        aMap.addMarker(new MarkerOptions().position(latLng2).title("南京").snippet("沃尔玛(南京秦淮店)"));
+        aMap.addMarker(new MarkerOptions().position(latLng3).title("南京").snippet("屈臣氏(彩虹广场店)"));
 
         MyLocationStyle myLocationStyle;
         myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
