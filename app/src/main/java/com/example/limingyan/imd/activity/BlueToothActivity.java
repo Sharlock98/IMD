@@ -95,20 +95,38 @@ public class BlueToothActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String message = et_send.getText().toString();
-                byte[] msgBuffer;
-                msgBuffer = ChangeUtil.getHexBytes(message);
-                try {
-                    os = bluetoothSocket.getOutputStream();
-                    os.write(msgBuffer);
-                    for (int i = 0; i < msgBuffer.length; i++) {
-                        byte result = msgBuffer[i];
+                if (message.matches("^[\u4e00-\u9fa5]+$")){
+//                    byte[] msgBuffer;
+//                    msgBuffer = ChangeUtil.UnicodeToHex(message);
+//                    try {
+//                        os = bluetoothSocket.getOutputStream();
+//                        os.write(msgBuffer);
+//                        for (int i = 0; i < msgBuffer.length; i++) {
+//                            byte result = msgBuffer[i];
+//
+//                            tv_show.append("Android:" + String.valueOf(result) + "\n");
+//
+//
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+                }else {
+                    byte[] msgBuffer;
+                    msgBuffer = ChangeUtil.getHexBytes(message);
+                    try {
+                        os = bluetoothSocket.getOutputStream();
+                        os.write(msgBuffer);
+                        for (int i = 0; i < msgBuffer.length; i++) {
+                            byte result = msgBuffer[i];
 
-                        tv_show.append("Android:" + String.valueOf(result) + "\n");
+                            tv_show.append("Android:" + String.valueOf(result) + "\n");
 
 
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         });
